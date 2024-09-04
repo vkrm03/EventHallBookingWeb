@@ -7,7 +7,7 @@ const NavBar = () => {
     <header>
       <nav>
         <div className="nav-left">
-          <Link to="/"><img src="./assets/univ-logo.png" className="logo-img" alt="Logo" /></Link>
+          <Link to="/"><img src="./src/assets/univ-logo.png" className="logo-img" alt="Logo" /></Link>
         </div>
         <div className="nav-right">
           <ul className='nav-ul'>
