@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
-import LoginForm from "./login.JSX";
+import LoginForm from "./login.jsx";
 import About from "./About";
 import Dashboard from "./Dashboard";
 import HallBooking from "./HallBooking";
