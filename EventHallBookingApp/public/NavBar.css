@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playwrite+IS:wght@100..400&family=Playwrite+PL:wght@100..400&family=Playwrite+VN:wght@100..400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.nav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header {
+    background-blend-mode: darken;
+    background:rgba(0, 0, 0, 0.5);
+}
+
+.num-of-items {
+    position: absolute;
+    font-size: 0.6em;
+}
+
+nav li a {
+    text-decoration: none;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1.2em;
+    color: white;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+nav li a:hover {
+    color:rgba(113, 99, 186, 1);
+}
+
+.logo-img {
+    height: 4em;
+    filter: drop-shadow(0 0 0.75rem rgb(85, 80, 233));
+    cursor: pointer;
+}
+
+.logo-img:hover {
+    filter: drop-shadow(0 0 0.8rem rgb(78, 105, 206));
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right .nav-ul {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+@media (min-width: 200px) and (max-width: 600px) {
+    nav li a {
+        font-size: 0.6em;
+    }
+    .nav-right {
+        margin-left: 30px;
+    }
+    .nav-ul {
+        gap: 10px;
+    }
+    .title {
+        font-size: 0.3em;
+    }
+    .logo-img {
+        height: 1.5em;
+    }
+    .num-of-items {
+        padding-top: 5px;
+        font-size: 6px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    nav li a {
+        font-size: 1em;
+    }
+    .title {
+        font-size: 0.6em;
+    }
+    .logo-img {
+        height: 2em;
+    }
+    .num-of-items {
+        padding-top: 4px;
+    }
+}

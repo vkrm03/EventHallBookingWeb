@@ -1,0 +1,119 @@
+/* Dashboard container */
+.dashboard {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+    overflow-y: hidden;
+}
+.dash {
+    height: 100vh;
+    background-color: #f4f4f4;
+    overflow-y: hidden;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 240px;
+    height: 100%;
+    background-color: rgba(113, 99, 186, 1);
+    padding-top: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease;
+}
+
+/* Sidebar menu styles */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Sidebar list item styles */
+.sidebar-li {
+    margin: 40px 0;
+}
+
+.sidebar-li a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for sidebar items */
+.sidebar-li:hover {
+    background-color: rgba(104, 101, 101, 0.5);
+}
+
+/* Sidebar icon styles */
+.sidebar-li a i {
+    margin-right: 20px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 800px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .sidebar-li a {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 140px;
+    }
+
+    .sidebar-li a {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar {
+        position: fixed;
+        top:0;
+        left:0;
+        bottom:0;
+        width: 50px;
+    }
+    .sidebar-li a i {
+        margin-right: 20px;
+    }
+    .sidebar:hover{
+        width:160px;
+        transition:0.5s;
+    }
+
+    .sidebar-li .a {
+        margin-left: 10px;
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 300px) {
+    .sidebar {
+        width: 80px;
+        
+    }
+
+    .sidebar-li a {
+        font-size: 10px;
+        padding: 5px;
+    }
+}
