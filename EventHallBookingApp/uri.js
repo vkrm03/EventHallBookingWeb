@@ -1,3 +1,3 @@
-const api_uri = "http://localhost:5000";
+const api_uri = "https://eventhallbookingwebapp.onrender.com";
 
 export default api_uri;
