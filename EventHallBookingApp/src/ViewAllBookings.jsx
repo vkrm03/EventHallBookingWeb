@@ -9,14 +9,15 @@ function ViewAllBookings() {
     const [filteredBookings, setFilteredBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedVenue, setSelectedVenue] = useState("Seminar Hall 1");
+    const [selectedVenue, setSelectedVenue] = useState("");
+    const [selectedDate, setSelectedDate] = useState("");
 
     useEffect(() => {
         async function fetchBookings() {
             try {
                 const response = await axios.get(api_uri + "/all-bookings");
                 setBookings(response.data);
-                setFilteredBookings(response.data.filter(booking => booking.venue === selectedVenue));
+                setFilteredBookings(response.data);
             } catch (error) {
                 setError("Error fetching bookings");
             } finally {
@@ -28,25 +29,54 @@ function ViewAllBookings() {
     }, []);
 
     useEffect(() => {
-        const filtered = bookings.filter(booking => booking.venue === selectedVenue);
+        let filtered = bookings;
+
+        if (selectedVenue) {
+            filtered = filtered.filter(booking => booking.venue === selectedVenue);
+        }
+
+        if (selectedDate) {
+            filtered = filtered.filter(booking => booking.eventDate === selectedDate);
+        }
+
         setFilteredBookings(filtered);
-    }, [selectedVenue, bookings]);
+    }, [selectedVenue, selectedDate, bookings]);
+
 
     const handleVenueChange = (event) => {
         setSelectedVenue(event.target.value);
     };
+
+
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
+    const uniqueDates = Array.from(new Set(bookings.map(booking => booking.eventDate)));
 
     return (
         <div className="dashboard">
             <AdminBar />
             <div className="main-content">
                 <h1>View All Bookings</h1>
-                <div style={{width: "50%"}}>
+
+                <div style={{ width: "50%" }}>
                     <select name="venue" id="venue" value={selectedVenue} onChange={handleVenueChange}>
+                        <option value="">All Venues</option> {/* Default option to show all bookings */}
                         <option value="Seminar Hall 1">Seminar Hall 1</option>
                         <option value="Seminar Hall 2">Seminar Hall 2</option>
                     </select>
                 </div>
+
+                <div style={{ width: "50%", marginTop: "10px" }}>
+                    <select name="date" id="date" value={selectedDate} onChange={handleDateChange}>
+                        <option value="">All Dates</option>
+                        {uniqueDates.map((date, index) => (
+                            <option key={index} value={date}>{date}</option>
+                        ))}
+                    </select>
+                </div>
+
                 {loading ? (
                     <p>Loading...</p>
                 ) : error ? (
