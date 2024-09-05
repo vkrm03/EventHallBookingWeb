@@ -4,7 +4,7 @@ import api_uri from "../uri";
 import axios from "axios";
 import SideBar from "./Sidebar";
 
-function MyBookings() {
+function HallEvents() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,15 +12,13 @@ function MyBookings() {
     useEffect(() => {
         async function fetchBookings() {
             try {
-                
-                    const staff_name = localStorage.getItem('Staffer');
-                    const response = await axios.get(api_uri + "/my-bookings", {params: {staff_name: staff_name}});
-                    if (response.data.length > 0) {
-                        setBookings(response.data);
-                    } else {
-                        setError("No bookings");
-                    }
-                
+                const response = await axios.get(api_uri + "/all-bookings");
+                if (localStorage.getItem('Staffer') === "Shamili.P") {
+                    response.data = response.data.filter(booking => booking.venue === "Seminar Hall 1");
+                } else {
+                    response.data = response.data.filter(booking => booking.venue === "Seminar Hall 2");
+                }
+                setBookings(response.data);
             } catch (error) {
                 setError("Error fetching bookings");
             } finally {
@@ -29,13 +27,13 @@ function MyBookings() {
         }
 
         fetchBookings();
-    }, []); // Empty dependency array ensures this runs once on mount
+    }, []);
 
     return (
         <div className="dashboard">
             <SideBar />
             <div className="main-content">
-                <h1>My Bookings</h1>
+                <h1>{localStorage.getItem('Staffer') === "Shamili.P" ? "Seminar Hall 1" : "Seminar Hall 2"} Bookings</h1>
                 {loading ? (
                     <p>Loading...</p>
                 ) : error ? (
@@ -44,6 +42,7 @@ function MyBookings() {
                     <table className="marks-table">
                         <thead>
                             <tr>
+                                <th>Staff Name</th>
                                 <th>Event Name</th>
                                 <th>Event Date</th>
                                 <th>Timings</th>
@@ -53,6 +52,7 @@ function MyBookings() {
                         <tbody>
                             {bookings.map((booking) => (
                                 <tr key={booking._id}>
+                                    <tr>{booking.bookedStaff}</tr>
                                     <td>{booking.eventName}</td>
                                     <td>{booking.eventDate}</td>
                                     <td>{`${booking.startTime} - ${booking.endTime}`}</td>
@@ -67,4 +67,4 @@ function MyBookings() {
     );
 }
 
-export default MyBookings;
+export default HallEvents;

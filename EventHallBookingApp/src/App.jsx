@@ -9,6 +9,7 @@ import HallBooking from "./HallBooking";
 import MyBookings from "./MyBookings";
 import DeleteBookings from "./DeleteBookings";
 import ViewAllBookings from "./ViewAllBookings";
+import HallEvents from "./HallEvents.jsx";
 import CheckAvailability from "./CheckAvailability";
 import DeleteAllBookings from "./DeleteAllBookings";
 import NotFound from "./NotFound";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/check-hall" element={isLoggedIn ?<CheckAvailability /> : <Navigate to="/login"/> } />
         <Route path="/book-hall" element={isLoggedIn ?<HallBooking /> : <Navigate to="/login"/> } />
         <Route path="/my-bookings" element={isLoggedIn ?<MyBookings /> : <Navigate to="/login"/> } />
+        <Route path="/hall-event" element={isLoggedIn ?<HallEvents /> : <Navigate to="/login"/> } />
         <Route path="/delete-my-bookings" element={isLoggedIn ?<DeleteBookings /> : <Navigate to="/login"/> } />
         <Route path="/delete-bookings" element={isLoggedIn ?<DeleteAllBookings /> : <Navigate to="/login"/> } />
 

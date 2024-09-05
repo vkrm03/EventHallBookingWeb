@@ -46,6 +46,14 @@ function SideBar() {
                             <span>My Bookings</span>
                         </Link>
                     </li>
+                    {localStorage.getItem('Staffer') === "Dr.S.Urmela" || localStorage.getItem('Staffer') === "Shamili.P" ? (
+                        <li className="sidebar-li">
+                            <Link to="/hall-event" className="a">
+                                <i className="fa-solid fa-calendar-days"></i>
+                                <span>Hall Events</span>
+                            </Link>
+                        </li>
+                    ) : null}
                     <li className="sidebar-li">
                         <Link to={localStorage.getItem('Role') === "adm" ? "/delete-bookings" : "/delete-my-bookings"} className="a">
                         <i className="fa-solid fa-trash"></i>
