@@ -36,23 +36,25 @@ function ViewAllBookings() {
         }
 
         if (selectedDate) {
-            filtered = filtered.filter(booking => booking.eventDate === selectedDate);
+            const formattedSelectedDate = formatDateForComparison(selectedDate); // Convert to 'DD/MM/YYYY'
+            filtered = filtered.filter(booking => booking.eventDate === formattedSelectedDate);
         }
 
         setFilteredBookings(filtered);
     }, [selectedVenue, selectedDate, bookings]);
 
-
     const handleVenueChange = (event) => {
         setSelectedVenue(event.target.value);
     };
 
-
     const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
+        setSelectedDate(event.target.value); // Keep it in 'YYYY-MM-DD' format
     };
 
-    const uniqueDates = Array.from(new Set(bookings.map(booking => booking.eventDate)));
+    const formatDateForComparison = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`; // Convert 'YYYY-MM-DD' to 'DD/MM/YYYY'
+    };
 
     return (
         <div className="dashboard">
@@ -62,19 +64,20 @@ function ViewAllBookings() {
 
                 <div style={{ width: "50%" }}>
                     <select name="venue" id="venue" value={selectedVenue} onChange={handleVenueChange}>
-                        <option value="">All Venues</option> {/* Default option to show all bookings */}
+                        <option value="">All Venues</option>
                         <option value="Seminar Hall 1">Seminar Hall 1</option>
                         <option value="Seminar Hall 2">Seminar Hall 2</option>
                     </select>
                 </div>
 
-                <div style={{ width: "50%", marginTop: "10px" }}>
-                    <select name="date" id="date" value={selectedDate} onChange={handleDateChange}>
-                        <option value="">All Dates</option>
-                        {uniqueDates.map((date, index) => (
-                            <option key={index} value={date}>{date}</option>
-                        ))}
-                    </select>
+                <div style={{ width: "50%", marginTop: "10px" }} className="form-group">
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value={selectedDate} // Ensure it's 'YYYY-MM-DD' format for input field
+                        onChange={handleDateChange}
+                    />
                 </div>
 
                 {loading ? (

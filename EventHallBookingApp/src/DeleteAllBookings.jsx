@@ -19,7 +19,7 @@ function DeleteAllBookings() {
             try {
                 const response = await axios.get(api_uri + "/all-bookings");
                 setBookings(response.data);
-                setFilteredBookings(response.data); // Set initial filtered bookings to all bookings
+                setFilteredBookings(response.data);
             } catch (error) {
                 setError("Error fetching bookings");
             } finally {
@@ -33,7 +33,7 @@ function DeleteAllBookings() {
     useEffect(() => {
         const filtered = bookings.filter(booking => 
             (selectedVenue === "All Venues" || booking.venue === selectedVenue) && 
-            (selectedDate === "" || booking.eventDate === selectedDate)
+            (selectedDate === "" || booking.eventDate === formatDateForComparison(selectedDate))
         );
         setFilteredBookings(filtered);
     }, [selectedVenue, selectedDate, bookings]);
@@ -43,7 +43,12 @@ function DeleteAllBookings() {
     };
 
     const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
+        setSelectedDate(event.target.value); // Keep it in 'YYYY-MM-DD' format
+    };
+
+    const formatDateForComparison = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`; // Convert 'YYYY-MM-DD' to 'DD/MM/YYYY' for comparison
     };
 
     const uniqueDates = Array.from(new Set(bookings.map(booking => booking.eventDate)));
@@ -55,7 +60,6 @@ function DeleteAllBookings() {
             <div className="main-content">
                 <h1>Delete Bookings</h1>
 
-                {/* Venue Filter */}
                 <div style={{ width: "50%" }}>
                     <select name="venue" id="venue" value={selectedVenue} onChange={handleVenueChange}>
                         <option value="All Venues">All Venues</option>
@@ -65,14 +69,14 @@ function DeleteAllBookings() {
                     </select>
                 </div>
 
-                {/* Date Filter */}
-                <div style={{ width: "50%", marginTop: "10px" }}>
-                    <select name="date" id="date" value={selectedDate} onChange={handleDateChange}>
-                        <option value="">All Dates</option>
-                        {uniqueDates.map((date, index) => (
-                            <option key={index} value={date}>{date}</option>
-                        ))}
-                    </select>
+                <div style={{ width: "50%", marginTop: "10px" }} className="form-group">
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                    />
                 </div>
 
                 {loading ? (

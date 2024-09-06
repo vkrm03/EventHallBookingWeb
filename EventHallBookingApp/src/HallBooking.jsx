@@ -3,8 +3,8 @@ import axios from "axios";
 import SideBar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import api_uri from "../uri";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";  // To allow using React components inside SweetAlert2 modals
 import "../public/HallBookings.css";
 
 function HallBooking() {
@@ -16,6 +16,7 @@ function HallBooking() {
         venue: "Seminar Hall 1"
     });
     const Navigate = useNavigate();
+    const MySwal = withReactContent(Swal);
 
     const today = new Date();
     const tomorrow = new Date(today);
@@ -45,10 +46,18 @@ function HallBooking() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const waitingToast = toast.info('Booking...', {
-            position: 'top-center',
-            autoClose: false,
+        // Show loading alert
+        MySwal.fire({
+            title: 'Booking...',
+            text: 'Please wait while we process your request.',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                MySwal.showLoading();
+            }
         });
+
         const Staffer = localStorage.getItem('Staffer');
         
         const formattedData = {
@@ -58,39 +67,42 @@ function HallBooking() {
             startTime: formatTime(formData.startTime),
             endTime: formatTime(formData.endTime),
         };
-        toast.dismiss(waitingToast);
+
         try {
-            
             const response = await axios.post(api_uri + "/hall-booking", formattedData);
 
             if (response.status === 200) {
-                toast.success('Event Hall booked successfully!', {
-                    position: 'top-center',
-                    autoClose: 2000,
-                });
-                setFormData({
-                    eventName: "",
-                    eventDate: "",
-                    startTime: "",
-                    endTime: "",
-                    venue: "Seminar Hall 1"
-                })
-                setTimeout(() => {
+                // Success alert
+                MySwal.fire({
+                    title: 'Success!',
+                    text: 'Event Hall booked successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    setFormData({
+                        eventName: "",
+                        eventDate: "",
+                        startTime: "",
+                        endTime: "",
+                        venue: "Seminar Hall 1"
+                    });
                     Navigate('/my-bookings');
-                }, 1000);
-                
-                console.log('Response:', response.data);
+                });
             } else {
-                toast.error('Try selecting a different date.', {
-                    position: 'top-center',
-                    autoClose: 2000,
+                MySwal.fire({
+                    title: 'Error',
+                    text: 'Try selecting a different date.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
                 });
             }
-            console.log("Booking submitted successfully", response.data);
         } catch (error) {
-            toast.error('Already booked for this time', {
-                position: 'top-center',
-                autoClose: 2000,
+            // Error alert with custom button
+            MySwal.fire({
+                title: 'Error!',
+                text: 'Already booked for this time. Please choose another time slot.',
+                icon: 'error',
+                confirmButtonText: 'OK'
             });
             console.error("There was an error submitting the booking!", error);
         }
@@ -172,7 +184,6 @@ function HallBooking() {
                     </form>
                 </div>
             </div>
-            <ToastContainer />
         </>
     );
 }
