@@ -39,7 +39,7 @@ function AdminDashboard() {
                 <div className="details">
                     <div className="detail-row">
                         <div className="label">Name:</div>
-                        <div className="value">DR.Revathi</div>
+                        <div className="value">Dr.S.Revathy</div>
                     </div>
                     <div className="detail-row">
                         <div className="label">Role:</div>
