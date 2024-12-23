@@ -46,6 +46,20 @@ function HallBooking() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validate time constraints
+        const startTimeHours = parseInt(formData.startTime.split(":"), 10);
+        const endTimeHours = parseInt(formData.endTime.split(":"), 10);
+
+        if (startTimeHours < 9 || endTimeHours > 15) {
+            MySwal.fire({
+                title: 'Invalid Time!',
+                text: 'Please select a time between 9:00 AM and 3:00 PM.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
         // Show loading alert
         MySwal.fire({
             title: 'Booking...',
@@ -59,7 +73,7 @@ function HallBooking() {
         });
 
         const Staffer = localStorage.getItem('Staffer');
-        
+
         const formattedData = {
             ...formData,
             bookedStaff: Staffer,
@@ -148,6 +162,8 @@ function HallBooking() {
                                 name="startTime" 
                                 value={formData.startTime} 
                                 onChange={handleChange} 
+                                min="09:00" 
+                                max="15:00" 
                                 required 
                             />
                         </div>
@@ -160,6 +176,8 @@ function HallBooking() {
                                 name="endTime" 
                                 value={formData.endTime} 
                                 onChange={handleChange} 
+                                min="09:00" 
+                                max="15:00" 
                                 required 
                             />
                         </div>
