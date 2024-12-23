@@ -58,69 +58,71 @@ function HallBooking() {
                 confirmButtonText: 'OK'
             });
             return;
-        }
-
-        // Show loading alert
-        MySwal.fire({
-            title: 'Booking...',
-            text: 'Please wait while we process your request.',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                MySwal.showLoading();
-            }
-        });
-
-        const Staffer = localStorage.getItem('Staffer');
-
-        const formattedData = {
-            ...formData,
-            bookedStaff: Staffer,
-            eventDate: formatDate(formData.eventDate),
-            startTime: formatTime(formData.startTime),
-            endTime: formatTime(formData.endTime),
-        };
-
-        try {
-            const response = await axios.post(api_uri + "/hall-booking", formattedData);
-
-            if (response.status === 200) {
-                // Success alert
-                MySwal.fire({
-                    title: 'Success!',
-                    text: 'Event Hall booked successfully!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    setFormData({
-                        eventName: "",
-                        eventDate: "",
-                        startTime: "",
-                        endTime: "",
-                        venue: "Seminar Hall 1"
+        } else {
+            MySwal.fire({
+                title: 'Booking...',
+                text: 'Please wait while we process your request.',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    MySwal.showLoading();
+                }
+            });
+    
+            const Staffer = localStorage.getItem('Staffer');
+    
+            const formattedData = {
+                ...formData,
+                bookedStaff: Staffer,
+                eventDate: formatDate(formData.eventDate),
+                startTime: formatTime(formData.startTime),
+                endTime: formatTime(formData.endTime),
+            };
+    
+            try {
+                const response = await axios.post(api_uri + "/hall-booking", formattedData);
+    
+                if (response.status === 200) {
+                    // Success alert
+                    MySwal.fire({
+                        title: 'Success!',
+                        text: 'Event Hall booked successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        setFormData({
+                            eventName: "",
+                            eventDate: "",
+                            startTime: "",
+                            endTime: "",
+                            venue: "Seminar Hall 1"
+                        });
+                        Navigate('/my-bookings');
                     });
-                    Navigate('/my-bookings');
-                });
-            } else {
+                } else {
+                    MySwal.fire({
+                        title: 'Error',
+                        text: 'Try selecting a different date.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                // Error alert with custom button
                 MySwal.fire({
-                    title: 'Error',
-                    text: 'Try selecting a different date.',
+                    title: 'Error!',
+                    text: 'Already booked for this time. Please choose another time slot.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
+                console.error("There was an error submitting the booking!", error);
             }
-        } catch (error) {
-            // Error alert with custom button
-            MySwal.fire({
-                title: 'Error!',
-                text: 'Already booked for this time. Please choose another time slot.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            console.error("There was an error submitting the booking!", error);
+        };
         }
-    };
+
+        // Show loading alert
+        
 
     return (
         <>
