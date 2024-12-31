@@ -149,6 +149,32 @@ app.get('/all-bookings', async (req, res) => {
   }
 });
 
+app.get('/delete-old-events', async (req, res) => {
+  try {
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const oldEvents = await Event.find();
+    console.log(oldEvents);
+    
+    const eventsToDelete = oldEvents.filter(event => {
+      const [day, month, year] = event.eventDate.split('/').map(Number);
+      const eventDate = new Date(year, month - 1, day);
+
+      return eventDate < sixMonthsAgo;
+    });
+    const deletionPromises = eventsToDelete.map(event => Event.findByIdAndDelete(event._id));
+    await Promise.all(deletionPromises);
+
+    res.status(200).json({
+      message: `${eventsToDelete.length} old event(s) deleted successfully.`,
+    });
+  } catch (error) {
+    console.error("Error deleting old events:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 function parseTime(timeStr) {
   const [time, period] = timeStr.split(' ');
   let [hours, minutes] = time.split(':').map(Number);
