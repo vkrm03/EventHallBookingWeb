@@ -7,7 +7,7 @@
     padding: 0;
     height: 100vh;
     font-family: 'Noto Sans', sans-serif;
-    background:rgba(0, 0, 0, 0.5) url("https://annauniversity.education/www.sathyabama.ac.in/sites/default/files/styles/max_2600x2600/public/2022-09/slide4a3c8.jpg?itok=iKJgtsB4")no-repeat;
+    background:rgba(0, 0, 0, 0.5) url("https://annauniversity.education/www.sathyabama.ac.in/sites/default/files/styles/max_2600x2600/public/2022-09/slide4a3c8.jpg?itok=iKJgtsB4") no-repeat;
     background-position: center;
     background-size: cover;
     background-blend-mode: darken;
