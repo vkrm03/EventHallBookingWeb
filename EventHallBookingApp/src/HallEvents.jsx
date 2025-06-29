@@ -30,7 +30,8 @@ function HallEvents() {
         <div className="dashboard">
             <SideBar />
             <div className="main-content">
-                <h1>{localStorage.getItem('Staffer') === "Shamili.P" ? "Seminar Hall 1" : "Seminar Hall 2"} Bookings</h1>
+                // {localStorage.getItem('Staffer') === "Shamili.P" ? "Seminar Hall 1" : "Seminar Hall 2"}
+                <h1>Seminar Hall Bookings</h1>
                 {loading ? (
                     <p>Loading...</p>
                 ) : error ? (
