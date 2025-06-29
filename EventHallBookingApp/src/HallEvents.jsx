@@ -14,11 +14,8 @@ function HallEvents() {
             try {
                 const response = await axios.get(api_uri + "/all-bookings");
                 if (localStorage.getItem('Staffer') === "Shamili.P") {
-                    response.data = response.data.filter(booking => booking.venue === "Seminar Hall 1");
-                } else {
-                    response.data = response.data.filter(booking => booking.venue === "Seminar Hall 2");
+                    setBookings(response.data);
                 }
-                setBookings(response.data);
             } catch (error) {
                 setError("Error fetching bookings");
             } finally {
