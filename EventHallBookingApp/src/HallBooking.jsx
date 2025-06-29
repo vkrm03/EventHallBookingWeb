@@ -4,7 +4,7 @@ import SideBar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import api_uri from "../uri";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";  // To allow using React components inside SweetAlert2 modals
+import withReactContent from "sweetalert2-react-content";
 import "../public/HallBookings.css";
 
 function HallBooking() {
