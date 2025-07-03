@@ -10,21 +10,25 @@ function HallEvents() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        async function fetchBookings() {
-            try {
-                const response = await axios.get(api_uri + "/all-bookings");
-                if (localStorage.getItem('Staffer') === "Shamili.P") {
-                    setBookings(response.data);
-                }
-            } catch (error) {
-                setError("Error fetching bookings");
-            } finally {
-                setLoading(false);
+    async function fetchBookings() {
+        try {
+            const response = await axios.get(api_uri + "/all-bookings");
+            if (localStorage.getItem('Staffer') === "Shamili.P") {
+                const sortedBookings = response.data.sort(
+                    (a, b) => new Date(a.eventDate) - new Date(b.eventDate)
+                );
+                setBookings(sortedBookings);
             }
+        } catch (error) {
+            setError("Error fetching bookings");
+        } finally {
+            setLoading(false);
         }
+    }
 
-        fetchBookings();
-    }, []);
+    fetchBookings();
+}, []);
+
 
     return (
         <div className="dashboard">
