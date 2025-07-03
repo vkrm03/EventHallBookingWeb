@@ -47,17 +47,20 @@ function HallBooking() {
         e.preventDefault();
 
         // Validate time constraints
-        const startTimeHours = parseInt(formData.startTime.split(":"), 10);
-        const endTimeHours = parseInt(formData.endTime.split(":"), 10);
+        const [startHour, startMinute] = formData.startTime.split(":").map(Number);
+        const [endHour, endMinute] = formData.endTime.split(":").map(Number);
 
-        if (startTimeHours < 9 || endTimeHours > 15) {
+        const isStartInvalid = startHour < 9;
+        const isEndInvalid = endHour > 15 || (endHour === 15 && endMinute > 15);
+
+        if (isStartInvalid || isEndInvalid) {
             MySwal.fire({
                 title: 'Invalid Time!',
                 text: 'Please select a time between 9:00 AM and 3:15 PM.',
                 icon: 'error',
                 confirmButtonText: 'OK'
-            });
-            return;
+        });
+        return;
         } else {
             MySwal.fire({
                 title: 'Booking...',
