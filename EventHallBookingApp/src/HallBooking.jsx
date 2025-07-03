@@ -53,7 +53,7 @@ function HallBooking() {
         if (startTimeHours < 9 || endTimeHours > 15) {
             MySwal.fire({
                 title: 'Invalid Time!',
-                text: 'Please select a time between 9:00 AM and 3:00 PM.',
+                text: 'Please select a time between 9:00 AM and 3:15 PM.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -165,7 +165,7 @@ function HallBooking() {
                                 value={formData.startTime} 
                                 onChange={handleChange} 
                                 min="09:00" 
-                                max="15:00" 
+                                max="15:15" 
                                 required 
                             />
                         </div>
@@ -179,7 +179,7 @@ function HallBooking() {
                                 value={formData.endTime} 
                                 onChange={handleChange} 
                                 min="09:00" 
-                                max="15:00" 
+                                max="15:15" 
                                 required 
                             />
                         </div>
