@@ -14,9 +14,15 @@ function HallEvents() {
         try {
             const response = await axios.get(api_uri + "/all-bookings");
             if (localStorage.getItem('Staffer') === "Shamili.P") {
-                const sortedBookings = response.data.sort(
-                    (a, b) => new Date(a.eventDate) - new Date(b.eventDate)
-                );
+                const sortedBookings = response.data.sort((a, b) => {
+                    const [aMonth, aDay, aYear] = a.eventDate.split("/");
+                    const [bMonth, bDay, bYear] = b.eventDate.split("/");
+
+                    const aDate = new Date(`${aYear}-${aMonth}-${aDay}`);
+                    const bDate = new Date(`${bYear}-${bMonth}-${bDay}`);
+
+                    return aDate - bDate;
+                });
                 setBookings(sortedBookings);
             }
         } catch (error) {
@@ -28,6 +34,7 @@ function HallEvents() {
 
     fetchBookings();
 }, []);
+
 
 
     return (
