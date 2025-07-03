@@ -22,7 +22,7 @@ function HallEvents() {
                     const bDate = new Date(`${bYear}-${bMonth}-${bDay}`);
 
                     return aDate - bDate;
-                });
+                }).reverse();
                 setBookings(sortedBookings);
             }
         } catch (error) {
