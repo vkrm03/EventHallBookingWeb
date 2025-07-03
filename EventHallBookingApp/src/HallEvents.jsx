@@ -15,8 +15,8 @@ function HallEvents() {
             const response = await axios.get(api_uri + "/all-bookings");
             if (localStorage.getItem('Staffer') === "Shamili.P") {
                 const sortedBookings = response.data.sort((a, b) => {
-                    const [aMonth, aDay, aYear] = a.eventDate.split("/");
-                    const [bMonth, bDay, bYear] = b.eventDate.split("/");
+                    const [aDay, aMonth, aYear] = a.eventDate.split("/");
+                    const [bDay, bMonth, bYear] = b.eventDate.split("/");
 
                     const aDate = new Date(`${aYear}-${aMonth}-${aDay}`);
                     const bDate = new Date(`${bYear}-${bMonth}-${bDay}`);
