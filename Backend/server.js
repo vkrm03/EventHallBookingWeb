@@ -22,29 +22,56 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.post('/login', async(req, res) => {
-  const role = req.body.role;
-  const email = req.body.email;
-  const pass = req.body.password;
-  const usr_details = await User.findOne({email_id : email});
-  if (role === "adm") {
-    if (email == usr_details.email_id && pass == usr_details.password && role == usr_details.role) {
-      const token = jwt.sign({ Email: email, Role: role }, 'B2RhwM0vppVupW9aPobZSgLW7YlpdgrV', { expiresIn: '1h' });
-      const staffName = usr_details.staff_name;
-      res.status(200).json({message : "Login successful!", token, role, email, staffName});
-    } else {
-      res.status(401).json({message : "Invalid credentials"});
+app.post('/login', async (req, res) => {
+  try {
+    const { role, email, password } = req.body;
+
+    const usr_details = await User.findOne({ email_id: email });
+
+    if (!usr_details) {
+      return res.status(401).json({
+        message: "Invalid credentials"
+      });
     }
-  } else {
-      if (email === usr_details.email_id && pass === usr_details.password && role == usr_details.role) {
-        const token = jwt.sign({ Email: email, Role: role }, 'B2RhwM0vppVupW9aPobZSgLW7YlpdgrV', { expiresIn: '1h' });
-        const staffName = usr_details.staff_name;
-        res.status(200).json({message : "Login successful!", token, role, email, staffName});
-      } else {
-        res.status(401).json({message : "Invalid credentials"});
-      }
+
+    if (
+      email === usr_details.email_id &&
+      password === usr_details.password &&
+      role === usr_details.role
+    ) {
+      const token = jwt.sign(
+        {
+          Email: email,
+          Role: role
+        },
+        process.env.JWT_SECRET || 'B2RhwM0vppVupN9PobZSgLW7Ylpdgr5V',
+        {
+          expiresIn: '1h'
+        }
+      );
+
+      const staffName = usr_details.staff_name;
+
+      return res.status(200).json({
+        message: "Login successful!",
+        token,
+        role,
+        email,
+        staffName
+      });
+    }
+
+    return res.status(401).json({
+      message: "Invalid credentials"
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+
+    return res.status(500).json({
+      message: "Internal Server Error"
+    });
   }
-  
 });
 
 
